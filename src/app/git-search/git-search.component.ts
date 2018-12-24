@@ -3,6 +3,7 @@ import { GitSearchService } from '../git-search.service'
 import { GitSearch } from '../git-search'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { AdvancedSearchModel } from '../advanced-search-model'
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-git-search',
@@ -14,11 +15,16 @@ export class GitSearchComponent implements OnInit {
   searchQuery: string;
   displayQuery: string;
   title: string;
+  form: FormGroup;
+  formControls = {};
   model = new AdvancedSearchModel('', '', '', null, null, '');
   modelKeys = Object.keys(this.model);
 
   constructor(private GitSearchService: GitSearchService, private route: ActivatedRoute, private router: Router ) { 
-
+    this.modelKeys.forEach( (key) => {
+      this.formControls[key] = new FormControl();
+  })
+  this.form = new FormGroup(this.formControls);
   }
 
   ngOnInit() {
@@ -39,25 +45,23 @@ export class GitSearchComponent implements OnInit {
       alert("Error: " + error.statusText)
     })
   }
-
   sendQuery = () => {
     this.searchResults = null;
-    let search : string = this.model.q;
+    let search : string = this.form.value['q'];
     let params : string = "";
     this.modelKeys.forEach(  (elem) => {
         if (elem === 'q') {
             return false;
         }
-        if (this.model[elem]) {
-            params += '+' + elem + ':' + this.model[elem];
+        if (this.form.value[elem]) {
+            params += '+' + elem + ':' + this.form.value[elem];
         }
     })
     this.searchQuery = search;
     if (params !== '') {
-        this.searchQuery = search + '+' + params;
+        this.searchQuery = search + params;
     }
     this.displayQuery = this.searchQuery;
     this.gitSearch();
 }
-
 }
