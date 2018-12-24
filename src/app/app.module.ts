@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
+import { GitCodeSearchService } from './git-code-search.service';
 import { GitSearchService } from './git-search.service';
 import { GitSearchComponent } from './git-search/git-search.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
     ),
     ReactiveFormsModule
   ],
-  providers: [GitSearchService],
+  providers: [GitSearchService, GitCodeSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
