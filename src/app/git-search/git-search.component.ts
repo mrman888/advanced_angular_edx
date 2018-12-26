@@ -46,8 +46,8 @@ constructor(private route: ActivatedRoute, private router: Router , private Unif
   }
 
   gitSearch = () => {
-    this.UnifiedSearchService.unifiedSearch(this.searchQuery).subscribe( (response: UnifiedSearch) => {
-      
+    this.UnifiedSearchService.unifiedSearchForkJoin(this.searchQuery).subscribe( (response: UnifiedSearch) => {
+
       debugger;
       console.log(response);
       this.searchResults = response.repositories;
