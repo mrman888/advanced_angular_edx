@@ -4,6 +4,8 @@ import { GitSearch } from '../git-search'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { AdvancedSearchModel } from '../advanced-search-model'
 import { FormControl, FormGroup, Validators  } from '@angular/forms';
+import { UnifiedSearchService } from '../unified-search.service';
+import { UnifiedSearch } from '../unified-search';
 
 @Component({
   selector: 'app-git-search',
@@ -30,20 +32,7 @@ export class GitSearchComponent implements OnInit {
     } : null;
 }
 
-  constructor(private GitSearchService: GitSearchService, private route: ActivatedRoute, private router: Router ) { 
-    this.modelKeys.forEach( (key) => {
-      let validators = [];
-      if (key === 'q') {
-          validators.push(Validators.required);
-      }
-      if (key === 'stars') {
-          validators.push(Validators.maxLength(4));
-      }
-      validators.push(this.noSpecialChars);
-      this.formControls[key] = new FormControl(this.model[key], validators);
-  })
-  this.form = new FormGroup(this.formControls);
-  }
+constructor(private route: ActivatedRoute, private router: Router , private UnifiedSearchService: UnifiedSearchService,) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe( (params: ParamMap) => {
@@ -57,22 +46,25 @@ export class GitSearchComponent implements OnInit {
   }
 
   gitSearch = () => {
-    this.GitSearchService.gitSearch(this.searchQuery).subscribe( (response) => {
-      this.searchResults = response;
+    this.UnifiedSearchService.unifiedSearch(this.searchQuery).subscribe( (response: UnifiedSearch) => {
+      console.log(response);
+      this.searchResults = response.repositories;
     }, (error) => {
       alert("Error: " + error.statusText)
     })
   }
-  sendQuery = () => {
+
+  sendQuery = (f) => {
+    console.log(f)
     this.searchResults = null;
-    let search : string = this.form.value['q'];
+    let search : string = this.model.q;
     let params : string = "";
     this.modelKeys.forEach(  (elem) => {
         if (elem === 'q') {
             return false;
         }
-        if (this.form.value[elem]) {
-            params += '+' + elem + ':' + this.form.value[elem];
+        if (this.model[elem]) {
+            params += '+' + elem + ':' + this.model[elem];
         }
     })
     this.searchQuery = search;
@@ -81,5 +73,5 @@ export class GitSearchComponent implements OnInit {
     }
     this.displayQuery = this.searchQuery;
     this.gitSearch();
-}
+  }
 }
