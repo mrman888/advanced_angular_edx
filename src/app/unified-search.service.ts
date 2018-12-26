@@ -23,4 +23,14 @@ export class UnifiedSearchService {
           }
         })
       } 
+
+      unifiedSearchForkJoin : Function = (query: string) : Observable<UnifiedSearch> => {
+        return Observable.forkJoin(this.searchService.gitSearch(query), this.codeSearchService.codeSearch(query))
+        .map( (response : [GitSearch, GitCodeSearch]) => {
+          return {
+            'repositories' : response[0],
+            'code': response[1]
+          }
+        })
+      } 
   }
