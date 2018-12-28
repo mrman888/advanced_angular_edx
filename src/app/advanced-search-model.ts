@@ -1,4 +1,5 @@
 export class AdvancedSearchModel {
+
     constructor(
         public q: string,
         public language?: string,

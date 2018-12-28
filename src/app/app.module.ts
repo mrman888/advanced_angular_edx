@@ -3,14 +3,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { GitCodeSearchService } from './git-code-search.service';
 import { GitSearchService } from './git-search.service';
+import { GitCodeSearchService } from './git-code-search.service';
+import { UnifiedSearchService } from './unified-search.service';
 import { GitSearchComponent } from './git-search/git-search.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { UnifiedSearchService } from './unified-search.service';
-
+import { NoSpecialCharsDirective } from './no-special-chars.directive';
+import { RepositoryDisplayComponent } from './repository-display/repository-display.component';
+import { CodeDisplayComponent } from './code-display/code-display.component';
 
 const appRoutes: Routes = [
   { path: '', 
@@ -32,7 +34,10 @@ const appRoutes: Routes = [
     AppComponent,
     GitSearchComponent,
     HomePageComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    NoSpecialCharsDirective,
+    RepositoryDisplayComponent,
+    CodeDisplayComponent
   ],
   imports: [
     BrowserModule,
