@@ -5,9 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FavoriteTextPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
+  transform(value: string, args?: any): any {
     if (args) {
-      return value + '* Favorite';
+      return `${value} * Favorite`;
     }
     else {
       return value

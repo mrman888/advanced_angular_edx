@@ -14,7 +14,7 @@ export class CodeDisplayComponent implements OnInit {
   ngOnInit() {
   }
 
-  addFavorite = (item) => {
+  addRemoveFavorite = (item) => {
     return this.updateFavorites.emit(item.repository.id);
   }
 

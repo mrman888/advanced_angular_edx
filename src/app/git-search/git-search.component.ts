@@ -66,7 +66,13 @@ export class GitSearchComponent implements OnInit {
   }
   
   handleFavorite = (id) => {
-    return this.favorites.push(id);
+    debugger;
+    let exist: boolean = this.favorites.indexOf(id) > -1;
+    if(exist) {
+      return this.favorites.splice(this.favorites.indexOf(id), 1);
+    } else { 
+      return this.favorites.push(id)
+    }
   }
 
 }
