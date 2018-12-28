@@ -1,7 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GitCodeSearch } from '../git-code-search'
-import { UnifiedSearchService } from '../unified-search.service';
-
 @Component({
   selector: 'app-code-display',
   templateUrl: './code-display.component.html',
@@ -9,10 +7,19 @@ import { UnifiedSearchService } from '../unified-search.service';
 })
 export class CodeDisplayComponent implements OnInit {
   @Input() searchResults: GitCodeSearch;
-  
-
-  constructor(private UnifiedSearchService: UnifiedSearchService) { }
+  @Input() favorites: Array<number>
+  @Output() updateFavorites = new EventEmitter<number>();
+  constructor() { }
 
   ngOnInit() {
   }
+
+  addFavorite = (item) => {
+    return this.updateFavorites.emit(item.repository.id);
+  }
+
+  checkFavorite = (item) => {
+    return this.favorites.indexOf(item.repository.id) > -1;
+  }
+
 }
